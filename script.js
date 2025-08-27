@@ -566,18 +566,14 @@ function addToCart(productId) {
             // Show success state
             button.innerHTML = '<i class="fas fa-check"></i> Added!';
             button.style.backgroundColor = '#28a745';
-            showNotification(`${product.name} added to cart!`, 'success');
+            showNotification('Added to cart!', 'success');
             
-            // Auto-open cart sidebar briefly to show the item
+            // Reset button after short delay
             setTimeout(() => {
-                openCart();
-                setTimeout(() => {
-                    // Reset button after showing success
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                    button.style.backgroundColor = '';
-                }, 1500);
-            }, 500);
+                button.innerHTML = originalText;
+                button.disabled = false;
+                button.style.backgroundColor = '';
+            }, 1000);
             
         }, 800); // Small delay for loading effect
     }
@@ -643,9 +639,17 @@ function updateCartDisplay() {
 
     // Update cart items
     if (cartItems) {
-        cartItems.innerHTML = cart.length === 0 ? 
-            '<p class="text-center" style="color: var(--text-muted); padding: 2rem;">Your cart is empty</p>' :
-            cart.map(item => `
+        if (cart.length === 0) {
+            cartItems.innerHTML = `
+                <div class="empty-cart-message">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some products to get started!</p>
+                    <button class="continue-shopping-btn" onclick="closeCartSidebar()">Continue Shopping</button>
+                </div>
+            `;
+        } else {
+            cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" class="cart-item-image"
                          onerror="this.src='https://via.placeholder.com/60x60/334155/ffffff?text=IMG'">
@@ -663,10 +667,17 @@ function updateCartDisplay() {
                     </button>
                 </div>
             `).join('');
+        }
     }
 
     // Update cart total
     if (cartTotalElement) cartTotalElement.textContent = `PKR ${cartTotal.toFixed(2)}`;
+    
+    // Show/hide cart footer based on cart contents
+    const cartFooter = document.querySelector('.cart-footer');
+    if (cartFooter) {
+        cartFooter.style.display = cart.length === 0 ? 'none' : 'block';
+    }
     
     // Disable checkout if cart is empty
     if (checkoutBtn) checkoutBtn.disabled = cart.length === 0;
@@ -1180,7 +1191,7 @@ function showNotification(message, type = 'success') {
     notification.className = `notification ${type}`;
     notification.innerHTML = `
         <div class="notification-content">
-            <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-exclamation-triangle'}"></i>
+            <i class="fas ${type === 'success' ? 'fa-check' : type === 'error' ? 'fa-times' : 'fa-exclamation'}"></i>
             <span>${message}</span>
         </div>
     `;
@@ -1188,15 +1199,16 @@ function showNotification(message, type = 'success') {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? 'var(--success-color)' : type === 'error' ? 'var(--error-color)' : 'var(--accent-color)'};
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b'};
         color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: var(--shadow);
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 10000;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-        max-width: 350px;
+        max-width: 250px;
+        font-size: 0.9rem;
         word-wrap: break-word;
         display: flex;
         align-items: center;
@@ -1210,8 +1222,8 @@ function showNotification(message, type = 'success') {
         notification.style.transform = 'translateX(0)';
     }, 100);
     
-    // Remove after delay (longer for errors)
-    const delay = type === 'error' ? 6000 : 4000;
+    // Remove after shorter delay
+    const delay = type === 'error' ? 3000 : 2000;
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
