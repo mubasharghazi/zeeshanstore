@@ -160,13 +160,18 @@ const ORDER_MANAGEMENT = {
 const INVENTORY = {
     // Simulated stock levels - in production this would come from a database
     stock: {
-        1: 50,  // Mini Calculator
-        2: 25,  // Digital Prayer Counter
-        3: 30,  // Oro 24 Color Metal Box
-        4: 40,  // Transparent File Organizer
-        5: 35,  // Goldfish Pencil Set
-        6: 20,  // Colorful Craft Sticks
-        7: 45   // Carbon Paper Set
+        1: 50,  // The Psychology of Money
+        2: 25,  // Atomic Habits
+        3: 30,  // Rich Dad Poor Dad
+        4: 40,  // The 7 Habits of Highly Effective People
+        5: 35,  // Think and Grow Rich
+        6: 20,  // The Compound Effect
+        7: 0,   // The Lean Startup - OUT OF STOCK
+        8: 15,  // Deep Work
+        9: 0,   // The Power of Now - OUT OF STOCK
+        10: 25, // Sapiens
+        11: 30, // The Alchemist
+        12: 0   // The 4-Hour Workweek - OUT OF STOCK
     },
     
     checkAvailability(productId, quantity = 1) {
@@ -456,34 +461,37 @@ function renderFeaturedProducts() {
 function renderProducts() {
     if (!productsGrid) return;
     
-    if (filteredProducts.length === 0) {
+    // Filter out out-of-stock items for display
+    const availableProducts = filteredProducts.filter(product => {
+        const stockLevel = INVENTORY.getStock(product.id);
+        return stockLevel > 0; // Only show products with stock > 0
+    });
+    
+    if (availableProducts.length === 0) {
         productsGrid.innerHTML = `
             <div class="no-products" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                <h3 style="color: var(--text-muted); margin-bottom: 1rem;">No products found</h3>
-                <p style="color: var(--text-secondary);">Try adjusting your search or filter criteria.</p>
+                <h3 style="color: var(--text-muted); margin-bottom: 1rem;">No products available</h3>
+                <p style="color: var(--text-secondary);">All products are currently out of stock. Please check back later.</p>
             </div>
         `;
         return;
     }
     
-    productsGrid.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
+    productsGrid.innerHTML = availableProducts.map(product => createProductCard(product)).join('');
 }
 
 // Create product card HTML
 function createProductCard(product) {
     const stockLevel = INVENTORY.getStock(product.id);
     const isLowStock = stockLevel <= 5;
-    const isOutOfStock = stockLevel === 0;
     
     let stockBadge = '';
-    if (isOutOfStock) {
-        stockBadge = '<span class="stock-badge out-of-stock">Out of Stock</span>';
-    } else if (isLowStock) {
+    if (isLowStock) {
         stockBadge = `<span class="stock-badge low-stock">Only ${stockLevel} left</span>`;
     }
     
     return `
-        <div class="product-card ${currentView === 'list' ? 'list-view' : ''} ${isOutOfStock ? 'out-of-stock' : ''}" data-product-id="${product.id}">
+        <div class="product-card ${currentView === 'list' ? 'list-view' : ''}" data-product-id="${product.id}">
             <div class="product-image-container">
                 <img src="${product.image}" alt="${product.name}" class="product-image" 
                      onerror="this.src='https://via.placeholder.com/400x300/334155/ffffff?text=Product+Image'">
@@ -495,8 +503,8 @@ function createProductCard(product) {
                     <span class="current-price">PKR ${product.price.toFixed(2)}</span>
                     <span class="original-price">PKR ${product.originalPrice.toFixed(2)}</span>
                 </div>
-                <button class="add-to-cart-btn" onclick="addToCart(${product.id})" ${isOutOfStock ? 'disabled' : ''}>
-                    ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                    Add to Cart
                 </button>
             </div>
         </div>
