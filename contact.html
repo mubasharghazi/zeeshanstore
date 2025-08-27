@@ -3,20 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - ZeeshanBooks - Your Online Bookstore</title>
+    <meta name="description" content="Contact ZeeshanStore - Get in touch for product inquiries, orders, or customer support. Located in Lahore, Pakistan">
+    <title>Contact Us - ZeeshanStore - Your Online Store</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#667eea',
+                        secondary: '#764ba2', 
+                        accent: '#f093fb'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <h1 class="logo"><i class="fas fa-book"></i> ZeeshanBooks</h1>
+                <a href="index.html" class="logo-link">
+                    <h1 class="logo"><i class="fas fa-store"></i> ZeeshanStore</h1>
+                </a>
                 <nav class="nav-menu">
                     <ul class="nav-list">
                         <li><a href="index.html" class="nav-link">Home</a></li>
-                        <li><a href="products.html" class="nav-link">Books</a></li>
+                        <li><a href="products.html" class="nav-link">Products</a></li>
                         <li><a href="about.html" class="nav-link">About</a></li>
                         <li><a href="contact.html" class="nav-link active">Contact</a></li>
                     </ul>
@@ -34,13 +51,31 @@
         </div>
     </header>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <h3><i class="fas fa-store"></i> ZeeshanStore</h3>
+                <button class="close-mobile-menu" id="closeMobileMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="products.html" class="mobile-nav-link">Products</a>
+                <a href="about.html" class="mobile-nav-link">About</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </nav>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main class="main">
         <div class="container">
             <!-- Page Header -->
             <section class="page-header">
-                <h2>Contact ZeeshanBooks</h2>
-                <p>Get in touch with us for book recommendations, orders, or any questions</p>
+                <h2>Contact ZeeshanStore</h2>
+                <p>Get in touch with us for product recommendations, orders, or any questions</p>
             </section>
 
             <!-- Contact Information -->
@@ -51,24 +86,24 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <h3>Phone</h3>
-                        <p>+92 300 1234567</p>
-                        <p>+92 21 1234567</p>
+                        <p>+92 300 4640712</p>
+                        <p>Available 24/7</p>
                     </div>
                     <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <h3>Email</h3>
-                        <p>info@zeeshanbooks.com</p>
-                        <p>support@zeeshanbooks.com</p>
+                        <p>zeeshanstore@gmail.com</p>
+                        <p>Available 24/7</p>
                     </div>
                     <div class="contact-card">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <h3>Address</h3>
-                        <p>123 Book Street, Block 6</p>
-                        <p>Karachi, Pakistan 75500</p>
+                        <p>Lahore, Pakistan</p>
+                        <p>Fast Delivery Nationwide</p>
                     </div>
                     <div class="contact-card">
                         <div class="contact-icon">
@@ -211,8 +246,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4><i class="fas fa-book"></i> ZeeshanBooks</h4>
-                    <p>Your trusted online bookstore offering amazing books at great prices with exceptional service.</p>
+                    <h4><i class="fas fa-store"></i> ZeeshanStore</h4>
+                    <p>Your trusted online store offering amazing products at great prices with exceptional service.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -238,8 +273,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 ZeeshanBooks. All rights reserved.</p>
-                <p class="watermark">Developed by <strong>Mubashar Ghazi</strong></p>
+                <p>&copy; 2025 ZeeshanStore. All rights reserved.</p>
+                <p class="watermark">Developed by <strong><a href="https://mubasharghazi.dev" target="_blank" rel="noopener noreferrer">Mubashar Ghazi</a></strong></p>
             </div>
         </div>
     </footer>
@@ -282,11 +317,6 @@
     <!-- Loading Spinner -->
     <div class="loading-spinner" id="loadingSpinner">
         <div class="spinner"></div>
-    </div>
-
-    <!-- Watermark -->
-    <div class="watermark-overlay">
-        <span>Developed by Mubashar Ghazi</span>
     </div>
 
     <script src="script.js"></script>
